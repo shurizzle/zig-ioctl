@@ -56,7 +56,7 @@ const GitClone = struct {
 
         defer self.builder.allocator.free(repo_dir);
 
-        const upper_dir = std.fs.path.dirname(repo_dir).?;
+        const upper_dir = std.fs.path.dirname(repo_dir) orelse unreachable;
 
         try std.fs.cwd().makePath(upper_dir);
 
@@ -69,7 +69,8 @@ const GitClone = struct {
 };
 
 fn isDirAndExists(path: []const u8) bool {
-    if (std.fs.openDirAbsolute(path, .{ .access_sub_paths = false, .iterate = false, .no_follow = false })) |_| {
+    if (std.fs.openDirAbsolute(path, .{ .access_sub_paths = false, .iterate = false, .no_follow = false })) |*dir| {
+        dir.close();
         return true;
     } else |_| {
         return false;
