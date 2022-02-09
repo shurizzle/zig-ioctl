@@ -292,7 +292,7 @@ pub const termios = packed struct {
     c_cflag: tcflag_t,
     c_lflag: tcflag_t,
     c_line: cc_t,
-    c_cc: cc_t[NCCS],
+    c_cc: [NCCS]cc_t,
 };
 
 pub const termios2 = packed struct {
@@ -301,7 +301,7 @@ pub const termios2 = packed struct {
     c_cflag: tcflag_t,
     c_lflag: tcflag_t,
     c_line: cc_t,
-    c_cc: cc_t[NCCS],
+    c_cc: [NCCS]cc_t,
     c_ispeed: speed_t,
     c_ospeed: speed_t,
 };
@@ -312,7 +312,7 @@ pub const ktermios = packed struct {
     c_cflag: tcflag_t,
     c_lflag: tcflag_t,
     c_line: cc_t,
-    c_cc: cc_t[NCCS],
+    c_cc: [NCCS]cc_t,
     c_ispeed: speed_t,
     c_ospeed: speed_t,
 };
@@ -329,7 +329,7 @@ pub const serial_iso7816 = packed struct {
     sc_fi: u32,
     sc_di: u32,
     clk: u32,
-    reserved: u32[5],
+    reserved: [5]u32,
 };
 
 pub inline fn ioctl0(fd: usize, cmd: usize) usize {
