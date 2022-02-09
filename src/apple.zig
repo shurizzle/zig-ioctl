@@ -1,48 +1,48 @@
 const syscall = @import("syscall");
 
-pub const IOCPARM_MASK = 0x2000;
+const IOCPARM_MASK = 0x1fff;
 
-pub inline fn IOCPARAM_LEN(x: comptime_int) comptime_int {
+inline fn IOCPARAM_LEN(x: comptime_int) comptime_int {
     return (x >> 16) & IOCPARM_MASK;
 }
 
-pub inline fn IOCBASECMD(x: comptime_int) comptime_int {
+inline fn IOCBASECMD(x: comptime_int) comptime_int {
     return x & ~(IOCPARM_MASK << 16);
 }
 
-pub inline fn IOCGROUP(x: comptime_int) comptime_int {
+inline fn IOCGROUP(x: comptime_int) comptime_int {
     return (x >> 8) & 0xff;
 }
 
-pub const IOCPARM_MAX = (IOCPARM_MASK + 1);
+const IOCPARM_MAX = (IOCPARM_MASK + 1);
 
-pub const IOC_VOID = 0x20000000;
+const IOC_VOID = 0x20000000;
 
-pub const IOC_OUT = 0x40000000;
+const IOC_OUT = 0x40000000;
 
-pub const IOC_IN = 0x80000000;
+const IOC_IN = 0x80000000;
 
-pub const IOC_INOUT = IOC_IN | IOC_OUT;
+const IOC_INOUT = IOC_IN | IOC_OUT;
 
-pub const IOC_DIRMASK = 0xe0000000;
+const IOC_DIRMASK = 0xe0000000;
 
-pub inline fn _IOC(inout: comptime_int, group: comptime_int, num: comptime_int, len: comptime_int) comptime_int {
+inline fn _IOC(comptime inout: comptime_int, comptime group: comptime_int, comptime num: comptime_int, comptime len: comptime_int) comptime_int {
     return inout | ((len & IOCPARM_MASK) << 16) | (group << 8) | num;
 }
 
-pub inline fn _IO(g: comptime_int, n: comptime_int) comptime_int {
+inline fn _IO(comptime g: comptime_int, comptime n: comptime_int) comptime_int {
     return _IOC(IOC_VOID, g, n, 0);
 }
 
-pub inline fn _IOR(g: comptime_int, n: comptime_int, comptime T: type) comptime_int {
+inline fn _IOR(comptime g: comptime_int, comptime n: comptime_int, comptime T: type) comptime_int {
     return _IOC(IOC_OUT, g, n, @sizeOf(T));
 }
 
-pub inline fn _IOW(g: comptime_int, n: comptime_int, comptime T: type) comptime_int {
+inline fn _IOW(comptime g: comptime_int, comptime n: comptime_int, comptime T: type) comptime_int {
     return _IOC(IOC_IN, g, n, @sizeOf(T));
 }
 
-pub inline fn _IOWR(g: comptime_int, n: comptime_int, comptime T: type) comptime_int {
+inline fn _IOWR(comptime g: comptime_int, comptime n: comptime_int, comptime T: type) comptime_int {
     return _IOC(IOC_INOUT, g, n, @sizeOf(T));
 }
 
@@ -130,9 +130,6 @@ pub const TIOCGWINSZ = _IOR('t', 104, winsize);
 pub const TIOCSWINSZ = _IOW('t', 103, winsize);
 pub const TIOCUCNTL = _IOW('t', 102, c_int);
 pub const TIOCSTAT = _IO('t', 101);
-pub inline fn UIOCCMD(n: comptime_int) comptime_int {
-    return _IO('u', n);
-}
 pub const TIOCSCONS = _IO('t', 99);
 pub const TIOCCONS = _IOW('t', 98, c_int);
 pub const TIOCSCTTY = _IO('t', 97);

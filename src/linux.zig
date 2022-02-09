@@ -19,7 +19,7 @@ const _IOC_NONE = 0;
 const _IOC_WRITE = 1;
 const _IOC_READ = 2;
 
-inline fn _IOC(dir: comptime_int, typ: comptime_int, nr: comptime_int, size: comptime_int) comptime_int {
+inline fn _IOC(comptime dir: comptime_int, comptime typ: comptime_int, comptime nr: comptime_int, comptime size: comptime_int) comptime_int {
     return (dir << _IOC_DIRMASK) | (typ << _IOC_TYPESHIFT) | (nr << _IOC_NRSHIFT) | (size << _IOC_SIZESHIFT);
 }
 
@@ -27,47 +27,47 @@ inline fn _IOC_TYPECHECK(comptime T: type) comptime_int {
     return @sizeOf(T);
 }
 
-inline fn _IO(typ: comptime_int, nr: comptime_int) comptime_int {
+inline fn _IO(comptime typ: comptime_int, comptime nr: comptime_int) comptime_int {
     return _IOC(_IOC_NONE, typ, nr, 0);
 }
 
-inline fn _IOR(typ: comptime_int, nr: comptime_int, comptime size: type) comptime_int {
+inline fn _IOR(comptime typ: comptime_int, comptime nr: comptime_int, comptime size: type) comptime_int {
     return _IOC(_IOC_READ, typ, nr, _IOC_TYPECHECK(size));
 }
 
-inline fn _IOW(typ: comptime_int, nr: comptime_int, comptime size: type) comptime_int {
+inline fn _IOW(comptime typ: comptime_int, comptime nr: comptime_int, comptime size: type) comptime_int {
     return _IOC(_IOC_WRITE, typ, nr, _IOC_TYPECHECK(size));
 }
 
-inline fn _IOWR(typ: comptime_int, nr: comptime_int, comptime size: type) comptime_int {
+inline fn _IOWR(comptime typ: comptime_int, comptime nr: comptime_int, comptime size: type) comptime_int {
     return _IOC(_IOC_READ | _IOC_WRITE, typ, nr, _IOC_TYPECHECK(size));
 }
 
-inline fn _IOR_BAD(typ: comptime_int, nr: comptime_int, comptime size: type) comptime_int {
+inline fn _IOR_BAD(comptime typ: comptime_int, comptime nr: comptime_int, comptime size: type) comptime_int {
     return _IOC(_IOC_READ, typ, nr, @sizeOf(size));
 }
 
-inline fn _IOW_BAD(typ: comptime_int, nr: comptime_int, comptime size: type) comptime_int {
+inline fn _IOW_BAD(comptime typ: comptime_int, comptime nr: comptime_int, comptime size: type) comptime_int {
     return _IOC(_IOC_WRITE, typ, nr, @sizeOf(size));
 }
 
-inline fn _IOWR_BAD(typ: comptime_int, nr: comptime_int, comptime size: type) comptime_int {
+inline fn _IOWR_BAD(comptime typ: comptime_int, comptime nr: comptime_int, comptime size: type) comptime_int {
     return _IOC(_IOC_READ | _IOC_WRITE, typ, nr, @sizeOf(size));
 }
 
-inline fn _IOC_DIR(nr: comptime_int) comptime_int {
+inline fn _IOC_DIR(comptime nr: comptime_int) comptime_int {
     return (nr >> _IOC_DIRSHIFT) & _IOC_DIRMASK;
 }
 
-inline fn _IOC_TYPE(nr: comptime_int) comptime_int {
+inline fn _IOC_TYPE(comptime nr: comptime_int) comptime_int {
     return (nr >> _IOC_TYPESHIFT) & _IOC_TYPEMASK;
 }
 
-inline fn _IOC_NR(nr: comptime_int) comptime_int {
+inline fn _IOC_NR(comptime nr: comptime_int) comptime_int {
     return (nr >> _IOC_NRSHIFT) & _IOC_NRMASK;
 }
 
-inline fn _IOC_SIZE(nr: comptime_int) comptime_int {
+inline fn _IOC_SIZE(comptime nr: comptime_int) comptime_int {
     return (nr >> _IOC_SIZESHIFT) & _IOC_SIZEMASK;
 }
 
@@ -319,7 +319,7 @@ pub const ktermios = packed struct {
 
 pub const SER_ISO7816_ENABLED = (1 << 0);
 pub const SER_ISO7816_T_PARAM = (0x0f << 4);
-pub inline fn SER_ISO7816_T(t: comptime_int) comptime_int {
+pub inline fn SER_ISO7816_T(comptime t: comptime_int) comptime_int {
     return (t & 0x0f) << 4;
 }
 
