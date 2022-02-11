@@ -18,7 +18,7 @@ const _IOC_WRITE = 1;
 const _IOC_READ = 2;
 
 fn _IOC(comptime dir: comptime_int, comptime typ: comptime_int, comptime nr: comptime_int, comptime size: comptime_int) comptime_int {
-    return (dir << _IOC_DIRMASK) | (typ << _IOC_TYPESHIFT) | (nr << _IOC_NRSHIFT) | (size << _IOC_SIZESHIFT);
+    return (dir << _IOC_DIRSHIFT) | (typ << _IOC_TYPESHIFT) | (nr << _IOC_NRSHIFT) | (size << _IOC_SIZESHIFT);
 }
 
 fn _IOC_TYPECHECK(comptime T: type) comptime_int {

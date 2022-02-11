@@ -13,7 +13,7 @@ test "basic functionality" {
     };
 
     var info: termios = undefined;
-    const res = ioctl(*termios, 0, what, &info);
+    const res = ioctl(0, what, &info);
     try std.testing.expect(res == 0);
     std.debug.print("{}\n", .{info});
 }
