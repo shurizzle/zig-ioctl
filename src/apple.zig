@@ -44,7 +44,7 @@ fn _IOWR(comptime g: comptime_int, comptime n: comptime_int, comptime T: type) c
     return _IOC(IOC_INOUT, g, n, @sizeOf(T));
 }
 
-pub const winsize = packed struct {
+pub const winsize = extern struct {
     ws_row: c_ushort,
     ws_col: c_ushort,
     ws_xpixel: c_ushort,
@@ -56,7 +56,7 @@ pub const cc_t = u8;
 pub const speed_t = c_ulong;
 pub const NCCS = 20;
 
-pub const termios = packed struct {
+pub const termios = extern struct {
     c_iflag: tcflag_t,
     c_oflag: tcflag_t,
     c_cflag: tcflag_t,
@@ -66,12 +66,12 @@ pub const termios = packed struct {
     c_ospeed: speed_t,
 };
 
-pub const timeval = packed struct {
+pub const timeval = extern struct {
     tv_sec: c_long,
     tv_usec: i32,
 };
 
-pub const ttysize = packed struct {
+pub const ttysize = extern struct {
     ts_lines: c_ushort,
     ts_cols: c_ushort,
     ts_xxx: c_ushort,
@@ -84,7 +84,7 @@ pub const IFNAMSIZ = IF_NAMESIZE;
 
 pub const sa_family_t = u8;
 
-pub const sockaddr = packed struct {
+pub const sockaddr = extern struct {
     sa_len: u8,
     sa_family: sa_family_t,
     sa_data: [14]u8,
@@ -92,13 +92,13 @@ pub const sockaddr = packed struct {
 
 pub const caddr_t = *u8;
 
-pub const ifdevmtu = packed struct {
+pub const ifdevmtu = extern struct {
     ifdm_current: c_int,
     ifdm_min: c_int,
     ifdm_max: c_int,
 };
 
-pub const ifkpi = packed struct {
+pub const ifkpi = extern struct {
     ifk_module_id: c_uint,
     ifk_type: c_uint,
     ifk_data: packed union {
@@ -107,7 +107,7 @@ pub const ifkpi = packed struct {
     },
 };
 
-pub const ifreq = packed struct {
+pub const ifreq = extern struct {
     ifr_name: [IFNAMSIZ]u8,
 
     ifr_ifru: packed union {
@@ -130,20 +130,20 @@ pub const ifreq = packed struct {
     },
 };
 
-pub const ifaliasreq = packed struct {
+pub const ifaliasreq = extern struct {
     ifra_name: [IFNAMSIZ]u8,
     ifra_addr: sockaddr,
     ifra_broadaddr: sockaddr,
     ifra_mask: sockaddr,
 };
 
-pub const if_clonereq = packed struct {
+pub const if_clonereq = extern struct {
     ifcr_total: c_int,
     ifcr_count: c_int,
     ifcr_buffer: *u8,
 };
 
-pub const ifconf = packed struct {
+pub const ifconf = extern struct {
     ifc_len: c_int,
     ifc_ifcu: packed union {
         ifcu_buf: caddr_t,
@@ -151,7 +151,7 @@ pub const ifconf = packed struct {
     },
 };
 
-pub const ifmediareq = packed struct {
+pub const ifmediareq = extern struct {
     ifm_name: [IFNAMSIZ]u8,
     ifm_current: c_int,
     ifm_mask: c_int,
@@ -161,19 +161,19 @@ pub const ifmediareq = packed struct {
     ifm_ulist: *c_int,
 };
 
-pub const rslvmulti_req = packed struct {
+pub const rslvmulti_req = extern struct {
     sa: *sockaddr,
     llsa: **sockaddr,
 };
 
 pub const IFSTATMAX = 800;
 
-pub const ifstat = packed struct {
+pub const ifstat = extern struct {
     ifs_name: [IFNAMSIZ]u8,
     ascii: [IFSTATMAX + 1]u8,
 };
 
-pub const ifdrv = packed struct {
+pub const ifdrv = extern struct {
     ifd_name: [IFNAMSIZ]u8,
     ifd_cmd: c_ulong,
     ifd_len: isize,

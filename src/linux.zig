@@ -270,14 +270,14 @@ pub const N = enum(usize) {
 
 pub const NCC = 8;
 
-pub const winsize = packed struct {
+pub const winsize = extern struct {
     ws_row: c_ushort,
     ws_col: c_ushort,
     ws_xpixel: c_ushort,
     ws_ypixel: c_ushort,
 };
 
-pub const termio = packed struct {
+pub const termio = extern struct {
     c_iflag: c_ushort,
     c_oflag: c_ushort,
     c_cflag: c_ushort,
@@ -292,7 +292,7 @@ pub const tcflag_t = c_uint;
 
 pub const NCCS = 19;
 
-pub const termios = packed struct {
+pub const termios = extern struct {
     c_iflag: tcflag_t,
     c_oflag: tcflag_t,
     c_cflag: tcflag_t,
@@ -301,7 +301,7 @@ pub const termios = packed struct {
     c_cc: [NCCS]cc_t,
 };
 
-pub const termios2 = packed struct {
+pub const termios2 = extern struct {
     c_iflag: tcflag_t,
     c_oflag: tcflag_t,
     c_cflag: tcflag_t,
@@ -312,7 +312,7 @@ pub const termios2 = packed struct {
     c_ospeed: speed_t,
 };
 
-pub const ktermios = packed struct {
+pub const ktermios = extern struct {
     c_iflag: tcflag_t,
     c_oflag: tcflag_t,
     c_cflag: tcflag_t,
@@ -329,7 +329,7 @@ pub inline fn SER_ISO7816_T(comptime t: comptime_int) comptime_int {
     return (t & 0x0f) << 4;
 }
 
-pub const serial_iso7816 = packed struct {
+pub const serial_iso7816 = extern struct {
     flags: u32,
     tg: u32,
     sc_fi: u32,

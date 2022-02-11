@@ -21,14 +21,15 @@ inline fn _cast(arg: anytype) usize {
     return switch (@typeInfo(T)) {
         .Pointer => |typ| if (switch (@typeInfo(typ.child)) {
             .Int, .ComptimeInt => true,
-            .Struct => |s| s.layout == .Packed,
-            .Union => |u| u.layout == .Packed,
-            .Enum => |e| e.layout == .Packed,
+            .Struct => |s| s.layout == .Extern,
+            .Union => |u| u.layout == .Extern,
+            .Enum => |e| e.layout == .Extern,
             else => false,
         })
             @ptrToInt(arg)
         else
-            @compileError("Argument must me a pointer to an integer or a packed struct"),
+            @compileError("Argument must me a pointer to an integer or an " ++
+                "extern struct"),
         .Int => if (@sizeOf(T) == @sizeOf(usize))
             @bitCast(usize, arg)
         else if (@sizeOf(T) < @sizeOf(usize))
