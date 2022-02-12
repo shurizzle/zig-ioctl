@@ -1,19 +1,15 @@
+const std = @import("std");
+const builtin = @import("builtin");
+const ioctllib = @import("ioctl");
+const ioctl = ioctllib.ioctl;
+const winsize = ioctllib.termios;
+const CMD = ioctllib.CMD;
+
+pub fn isatty(fd: i32) bool {
+    var size: winsize = undefined;
+    return ioctl(@bitCast(usize, @as(isize, fd)), .tiocgwinsz, &size) == 0;
+}
+
 test "basic functionality" {
-    const std = @import("std");
-    const builtin = @import("builtin");
-    const ioctllib = @import("ioctl");
-    const ioctl = ioctllib.ioctl;
-    const termios = ioctllib.termios;
-    const CMD = ioctllib.CMD;
-
-    const what: CMD = switch (builtin.target.os.tag) {
-        .linux => .tcgets,
-        .macos => .tiocgeta,
-        else => unreachable,
-    };
-
-    var info: termios = undefined;
-    const res = ioctl(0, what, &info);
-    try std.testing.expect(res == 0);
-    std.debug.print("{}\n", .{info});
+    try std.testing.expect(isatty(std.io.getStdIn().handle));
 }
